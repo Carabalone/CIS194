@@ -13,13 +13,16 @@ toDigits x
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev x = reverse (toDigits x)
 
+doubleEveryOtherLeft :: [Integer] -> [Integer]
+doubleEveryOtherLeft (x:[]) = [x]
+doubleEveryOtherLeft (x:(h:t)) = x : 2*h : doubleEveryOther t
+
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther (x:[]) = [2*x]
-doubleEveryOther (x:(h:t)) = 2*x : h : doubleEveryOther t
+doubleEveryOther = reverse . doubleEveryOtherLeft . reverse
 
 sumDigits :: [Integer] -> Integer
 sumDigits (h:[]) = h
 sumDigits (h:t) = h + sumDigits t
 
---validate :: Integer -> Bool
-
+validate :: Integer -> Bool
+validate = sumDigits . doubleEveryOther . toDigits 
